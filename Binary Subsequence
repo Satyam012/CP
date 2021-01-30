@@ -1,0 +1,37 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int t,n;
+    cin>>t;
+    while(t--){
+        cin>>n;
+        string s;
+        cin>>s;
+        int arr[s.length()]={0};
+        int arr1[s.length()]={0};
+        int cntz=0,cnto=0;
+        for(int i=0;i<s.length();i++){
+            if(s[i]=='0'){cntz++;}
+            arr[i]=cntz;
+        }
+        for(int i=s.length()-1;i>=0;i--){
+            if(s[i]=='1'){cnto++;}
+            arr1[i]=cnto;
+        }
+        int maxx=0;
+        for(int i=0;i<s.length();i++){
+            int f=arr[i]+arr1[i];
+            maxx=max(f,maxx);
+        }
+        cout<<s.length()-maxx<<endl;
+        
+    }
+    
+    
+}
