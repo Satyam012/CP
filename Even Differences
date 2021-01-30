@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define mx          INT_MAX
+#define mn          INT_MIN
+#define fastio      ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0)
+#define ll          long long int
+#define pb          push_back
+#define pii         pair<ll,ll>
+#define vi          vector<ll>
+#define vii         vector<pii>
+#define mi          map<ll,ll>
+#define mii         map<pii,ll>
+#define ff          first
+#define ss          second
+#define endl        '\n'
+#define mod         1000000007
+#define ull         unsigned ll
+#define f(i,a,b)    for(i=a;i<b;i++)
+#define pqh         priority_queue<ll>
+#define pql         priority_queue<ll,vi,greater<ll>>
+#define all(x)      x.begin(), x.end()
+#define sort(v)     sort(all(v))
+#define max(aa, bb) (aa > bb ? aa:bb)
+#define min(aa, bb) (aa < bb ? aa:bb)    
+#define mm(x,val) memset(x,val,sizeof x)
+
+int main()
+{
+  fastio;
+  ll t,i,j,m,n;
+  ull a,b,x,y;
+  cin>>t;
+  while(t--)
+  {
+    cin>>n;
+    vi v(n);
+    f(i,0,n)cin>>v[i];
+    ll x1=0,x2=0;
+    f(i,0,n){
+        if(v[i]%2)x1++;
+        else x2++;
+    }
+    cout<<min(x1,x2)<<endl;
+  }
+  return 0;
+}
+
+
+
