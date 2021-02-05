@@ -1,0 +1,35 @@
+int Solution::solve(vector<int> &A, int B) {
+    vector<int>v;
+    int i,k;
+    int mod=1e9+7;
+    for(auto z:A){
+        int cnt=0;
+        while(z%2==0){
+            z/=2;
+            cnt=1;
+        }
+        for(i=3;i<=sqrt(z);i+=2){
+            if(z%i==0){
+                cnt++;
+                while(z%i==0)z/=i;
+            }
+        }
+        if(z>2)cnt++;
+        v.push_back(cnt);
+    }
+    priority_queue<pair<int,int>>q;
+    int n=v.size();
+    for(i=0;i<min(B,n);i++){
+        while(!q.empty()&&q.top().first<v[i])q.pop();
+        q.push({v[i],n-i});
+    }
+    int s=0;
+    for(i=B;i<v.size();i++){
+        if(!q.empty())s+=A[n-q.top().second];
+        s%=mod;
+        while(!q.empty()&&(n-q.top().second)<=i-B)q.pop();
+        q.push({v[i],n-i});
+    }
+    if(!q.empty())s+=A[n-q.top().second];
+    return s;
+}
