@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int minimumSize(vector<int>& nums, int k) {
+        int ans,l=1,h=0;
+        for(auto x:nums)h=max(h,x);
+        ans=h;
+        while(l<=h){
+            int mid=(l+h)/2;
+            int cnt=0;
+            for(auto x:nums)cnt+=(x-1)/mid;
+            if(cnt<=k)h=mid-1;
+            else l=mid+1;
+        }
+        return l;
+    }
+};
