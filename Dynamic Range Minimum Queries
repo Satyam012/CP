@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+#define ll long long
+struct SegmentTreeNode {
+    int start, end,sum;
+    SegmentTreeNode* left;
+    SegmentTreeNode* right;
+    SegmentTreeNode(int a, int b):start(a),end(b),sum(0),left(nullptr),right(nullptr){}
+};
+ 
+ 
+    
+SegmentTreeNode* buildTree(vector<int> &nums, int start, int end) {
+    if(start > end) return nullptr;
+    SegmentTreeNode* root = new SegmentTreeNode(start,end);
+    if(start == end) {
+        root->sum = nums[start];
+        return root;
+    }
+    int mid = start + (end - start) / 2;
+    root->left = buildTree(nums,start,mid);
+    root->right = buildTree(nums,mid+1,end);
+    root->sum = min(root->left->sum,root->right->sum);
+    return root;
+}
+int queryTree(int i, int j, SegmentTreeNode* root) {
+    if(root == nullptr) return 0;
+    if(root->start == i && root->end == j) return root->sum;
+    int mid = (root->start + root->end) / 2;
+    if(i > mid) return queryTree(i,j,root->right);
+    if(j <= mid) return queryTree(i,j,root->left);
+    return min(queryTree(i,mid,root->left),queryTree(mid+1,j,root->right));
+}
+int modifyTree(int i, int val, SegmentTreeNode* root) {
+    if(root == nullptr) return 0;
+ 
+    if(root->start == i && root->end == i) {
+        root->sum=val;
+        return val;
+    }
+    int mid = (root->start + root->end) / 2;
+    if(i > mid) {
+        int value=modifyTree(i,val,root->right);
+        root->right->sum = min(root->right->sum,value);
+    } else {
+        int value=modifyTree(i,val,root->left);
+        root->left->sum = min(root->left->sum,value);
+    }
+    root->sum = min(root->right->sum,root->left->sum);
+    return root->sum;
+}
+ 
+int main()
+{
+   int q,n,a,t,b;
+   cin>>n>>q;
+   vector<int>v(n);
+   for(int i=0;i<n;i++)cin>>v[i];
+   SegmentTreeNode* root=buildTree(v,0,n-1);
+   while(q--){
+       cin>>t>>a>>b;
+       if(t==2)cout<<queryTree(a-1,b-1,root)<<endl;
+       else modifyTree(a-1,b,root);
+   }
+   return 0;
+}
